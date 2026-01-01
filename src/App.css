@@ -199,6 +199,10 @@ nav {
   border-radius: 16px;
   border: 1px solid rgba(255,255,255,0.1);
   box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+
+  /* SMOOTH TRANSITION */
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  z-index: 10;
 }
 
 .floating-stat span {
@@ -211,6 +215,16 @@ nav {
 .floating-stat strong {
   font-size: 1.5rem;
   color: var(--accent);
+}
+
+/* HOVER EFFECT: Horizontal Slide (Desktop Only) */
+@media (min-width: 901px) {
+  .profile-card:hover .floating-stat {
+    bottom: -20px; /* Stay put vertically */
+    left: -5px;    /* Slide right (from -20px to -5px) */
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    transform: scale(1.05); 
+  }
 }
 
 /* --- 4. SERVICES / SKILLS (Grid Layout) --- */
@@ -397,7 +411,7 @@ nav {
   pointer-events: none;
 }
 
-/* --- 7. PROJECTS GALLERY (The Portfolio List) --- */
+/* --- 7. PROJECTS GALLERY (ANIMATED) --- */
 .gallery-header {
   text-align: center;
   padding: 80px 0 60px;
@@ -408,36 +422,55 @@ nav {
   font-weight: 800;
   margin-bottom: 20px;
   color: white;
+  
+  /* Animate Title */
+  animation: fadeInDown 0.8s ease-out;
 }
 
 /* The Grid Container */
 .projects-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); /* Auto-responsive columns */
+  /* Smart Responsive: Fits as many as possible, but never smaller than 300px */
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
   gap: 40px;
   padding-bottom: 100px;
 }
 
 /* Individual Project Card */
 .gallery-card {
-  background: var(--bg-card); /* Navy Blue */
+  background: var(--bg-card);
   border-radius: 24px;
-  overflow: hidden; /* Keeps image inside rounded corners */
+  overflow: hidden;
   border: 1px solid rgba(255,255,255,0.05);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s;
+  
+  /* START HIDDEN (for animation) */
+  opacity: 0; 
+  transform: translateY(20px);
+  
+  /* Run the "Pop Up" animation */
+  animation: fadeInUp 0.6s ease-out forwards;
 }
 
+/* Stagger the animations (1st card fast, 2nd slower, 3rd slowest) */
+.gallery-card:nth-child(1) { animation-delay: 0.1s; }
+.gallery-card:nth-child(2) { animation-delay: 0.2s; }
+.gallery-card:nth-child(3) { animation-delay: 0.3s; }
+.gallery-card:nth-child(4) { animation-delay: 0.4s; }
+
+/* Card Hover Effects */
 .gallery-card:hover {
-  transform: translateY(-10px); /* Floats up on hover */
-  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-  border-color: rgba(139, 92, 246, 0.3); /* Purple glow border */
+  transform: translateY(-10px); /* Lift up */
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  border-color: var(--accent); /* Purple Border Glow */
 }
 
-/* Card Image */
+/* Image Wrapper */
 .card-image-wrapper {
   height: 250px;
   overflow: hidden;
   position: relative;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
 }
 
 .card-image-wrapper img {
@@ -447,45 +480,33 @@ nav {
   transition: transform 0.5s ease;
 }
 
+/* Zoom Image on Hover */
 .gallery-card:hover .card-image-wrapper img {
-  transform: scale(1.05); /* Slight zoom on hover */
+  transform: scale(1.05);
 }
 
-/* Card Content */
-.card-content {
-  padding: 30px;
-}
+/* Content Styling */
+.card-content { padding: 30px; }
+.card-title { font-size: 1.5rem; font-weight: 700; color: white; margin-bottom: 10px; }
+.card-desc { color: var(--text-muted); font-size: 1rem; line-height: 1.6; margin-bottom: 20px; }
 
-.card-title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: white;
-  margin-bottom: 10px;
-}
-
-.card-desc {
-  color: var(--text-muted);
-  font-size: 1rem;
-  line-height: 1.6;
-  margin-bottom: 20px;
-}
-
-/* Tech Tags inside Card */
-.card-tech {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-top: auto; /* Pushes it to bottom */
-}
-
+/* Tech Tags */
+.card-tech { display: flex; gap: 10px; flex-wrap: wrap; margin-top: auto; }
 .mini-badge {
-  font-size: 0.75rem;
-  color: var(--accent-glow);
+  font-size: 0.75rem; color: var(--accent-glow);
   background: rgba(139, 92, 246, 0.1);
-  padding: 5px 12px;
-  border-radius: 4px;
-  font-weight: 600;
+  padding: 5px 12px; border-radius: 4px; font-weight: 600;
 }
+
+/* --- ANIMATION KEYFRAMES --- */
+@keyframes fadeInUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 
 /* --- MOBILE FIXES --- */
 @media (max-width: 900px) {
@@ -514,3 +535,107 @@ nav {
     margin-bottom: 20px;
   }
 }
+
+@media (max-width: 600px) {
+  /* 4. Fix Project Grid for small phones */
+  .projects-grid {
+    grid-template-columns: 1fr; /* Force single column on small phones */
+    gap: 30px;
+  }
+  .gallery-title { font-size: 2.5rem; }
+}
+
+/* --- 8. PROJECT MODAL (The Popup) --- */
+
+/* The Dark Background Overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 23, 42, 0.9); /* Very dark navy */
+  backdrop-filter: blur(8px);        /* Blurs the page behind it */
+  z-index: 2000; /* Sit on top of everything */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* The Mini-Page itself */
+.modal-content {
+  background: var(--bg-card);
+  width: 100%;
+  max-width: 900px;
+  max-height: 90vh; /* Don't be taller than screen */
+  overflow-y: auto; /* Scroll inside if content is long */
+  border-radius: 24px;
+  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+  position: relative;
+  animation: zoomIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Modal Header Image */
+.modal-img-wrapper {
+  height: 300px;
+  width: 100%;
+  overflow: hidden;
+}
+.modal-img-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Modal Body Text */
+.modal-body {
+  padding: 40px;
+}
+.modal-title {
+  font-size: 2.5rem;
+  color: white;
+  margin-bottom: 15px;
+  line-height: 1.1;
+}
+.modal-role {
+  color: var(--accent);
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  margin-bottom: 20px;
+  display: block;
+}
+.modal-desc {
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  line-height: 1.8;
+  margin-bottom: 30px;
+}
+
+/* The Close Button (X) */
+.close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(0,0,0,0.5);
+  color: white;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+.close-btn:hover { background: var(--accent); }
+
+/* Animation Keyframes */
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes zoomIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
