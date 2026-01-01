@@ -257,14 +257,6 @@ nav {
   border-color: var(--accent);
 }
 
-/* Responsive */
-@media (max-width: 900px) {
-  .hero-grid { grid-template-columns: 1fr; text-align: center; }
-  .hero-intro h1 { font-size: 3rem; }
-  .profile-card { width: 80%; margin: 40px auto 0; transform: rotate(0deg); }
-  .hero-bg-glow { width: 100%; top: 0; }
-}
-
 /* --- 6. PROJECT DETAILS PAGE (The "Glass" Upgrade) --- */
 .project-wrapper {
   max-width: 1200px;
@@ -405,16 +397,6 @@ nav {
   pointer-events: none;
 }
 
-/* Mobile Fixes */
-@media (max-width: 900px) {
-  .project-header, .details-grid {
-    flex-direction: column;
-  }
-  .project-title {
-    font-size: 2.5rem;
-  }
-}
-
 /* --- 7. PROJECTS GALLERY (The Portfolio List) --- */
 .gallery-header {
   text-align: center;
@@ -503,4 +485,32 @@ nav {
   padding: 5px 12px;
   border-radius: 4px;
   font-weight: 600;
+}
+
+/* --- MOBILE FIXES --- */
+@media (max-width: 900px) {
+  
+  /* 1. Force vertical stack: Text on Top, Image on Bottom */
+  .hero-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 50px; /* Adds space between "View My Work" and the Image */
+  }
+
+  /* 2. Fix the Experience Card overlap */
+  .floating-stat {
+    /* Moves the badge INSIDE the image instead of hanging off the edge */
+    bottom: 10px; 
+    left: 50%; 
+    transform: translateX(-50%); /* Centers it perfectly */
+    width: max-content;
+    
+    /* Ensure it sits on top of everything */
+    z-index: 10;
+  }
+
+  /* 3. Ensure the text has room to breathe */
+  .hero-intro {
+    margin-bottom: 20px;
+  }
 }
