@@ -48,7 +48,7 @@ const ProjectDetail = () => {
         It helps gamers make data-driven transfer decisions.
       `,
       tech: ["JavaScript", "React", "Data Viz"],
-      image: "https://via.placeholder.com/600x400"
+      image: "/fm-preview.png" // Local image in public folder
     }
   ];
 
