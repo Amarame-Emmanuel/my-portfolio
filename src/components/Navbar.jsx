@@ -5,29 +5,29 @@ const Navbar = () => {
 
   return (
     <nav>
-      {/* 1. INVISIBLE SPACER (Crucial for centering) */}
-      {/* This empty div takes the place of the logo so the links stay in the middle */}
+      {/* 1. INVISIBLE SPACER */}
       <div style={{ width: '100px' }}></div> 
 
-      {/* 2. MIDDLE LINKS (Centered) */}
+      {/* 2. MIDDLE LINKS */}
       <div className="nav-links">
         
-        {/* Home Link */}
+        {/* Only show "Home" if we are NOT on the Home page */}
         {location.pathname !== '/' && (
           <Link to="/" className="nav-item">
             Home
           </Link>
         )}
 
-        {/* Projects Link */}
-        {location.pathname !== '/project-details' && (
-          <Link to="/project-details" className="nav-item">
+        {/* Only show "Projects" if we are NOT on the Projects page */}
+        {location.pathname !== '/projects' && (
+          <Link to="/projects" className="nav-item">
             Projects
           </Link>
         )}
+        
       </div>
 
-      {/* 3. CALL TO ACTION (Right Side) */}
+      {/* 3. CALL TO ACTION */}
       <a href="mailto:emmanuelamarame@gmail.com" className="nav-btn">
         <span>→</span> Get in touch
       </a>

@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import About from '../components/About';
 
 const Home = () => {
   return (
@@ -20,7 +21,7 @@ const Home = () => {
               high-performance web applications that scale.
             </p>
             <div style={{ display: 'flex', gap: '20px', marginTop: '30px' }}>
-              <Link to="/project-details" className="btn-primary">View My Work</Link>
+              <Link to="/projects" className="btn-primary">View My Work</Link>
             </div>
           </div>
 
@@ -38,8 +39,11 @@ const Home = () => {
         </div>
       </section>
 
+      {/* 2. ABOUT SECTION: Reusable Component */}
+      <About />
 
-      {/* 2. EXPERTISE: Bento Grid Layout */}
+
+      {/* 3. EXPERTISE: Bento Grid Layout */}
       <section className="skills-section">
         <div className="section-head">
           <h2 className="section-title">My Expertise</h2>
